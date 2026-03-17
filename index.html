@@ -7,6 +7,82 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&family=Secular+One&family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* ===== PASSWORD SCREEN ===== */
+        #password-screen {
+            position: fixed;
+            inset: 0;
+            background: #0a0a0a;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        #password-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .pw-title {
+            font-family: 'Secular One', sans-serif;
+            font-size: clamp(24px, 6vw, 40px);
+            background: linear-gradient(135deg, #e8c9a0, #e8a0a6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .pw-subtitle {
+            font-size: 16px;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 30px;
+            font-family: 'Rubik', sans-serif;
+        }
+
+        .pw-input {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(212,165,116,0.3);
+            border-radius: 12px;
+            padding: 14px 24px;
+            font-size: 22px;
+            color: #e8c9a0;
+            text-align: center;
+            font-family: 'Rubik', sans-serif;
+            letter-spacing: 4px;
+            width: 220px;
+            outline: none;
+            transition: border-color 0.3s;
+            direction: ltr;
+        }
+
+        .pw-input:focus {
+            border-color: #d4a574;
+        }
+
+        .pw-input.wrong {
+            border-color: #c4737a;
+            animation: shake 0.5s;
+        }
+
+        .pw-hint {
+            margin-top: 15px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.3);
+            font-family: 'Rubik', sans-serif;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-10px); }
+            40% { transform: translateX(10px); }
+            60% { transform: translateX(-10px); }
+            80% { transform: translateX(10px); }
+        }
+
         *, *::before, *::after {
             margin: 0;
             padding: 0;
@@ -734,6 +810,14 @@
 </head>
 <body class="bg-dark">
 
+    <!-- PASSWORD SCREEN -->
+    <div id="password-screen">
+        <div class="pw-title">🔒 רק לפפון</div>
+        <div class="pw-subtitle">הכניסי את התאריך שלנו</div>
+        <input type="text" class="pw-input" id="pw-input" placeholder="DD/MM" maxlength="5" autocomplete="off" inputmode="numeric">
+        <div class="pw-hint">רמז: היום שהכל התחיל 🖤</div>
+    </div>
+
     <!-- PRELOADER -->
     <div id="preloader">
         <div class="heart">🖤</div>
@@ -999,12 +1083,44 @@
     </button>
 
     <script>
-        // ===== PRELOADER =====
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('preloader').classList.add('hidden');
-            }, 2000);
+        // ===== PASSWORD =====
+        const pwInput = document.getElementById('pw-input');
+        const pwScreen = document.getElementById('password-screen');
+        const preloader = document.getElementById('preloader');
+
+        // Auto-format: add "/" after 2 digits
+        pwInput.addEventListener('input', (e) => {
+            let val = e.target.value.replace(/[^\d]/g, '');
+            if (val.length > 2) val = val.slice(0, 2) + '/' + val.slice(2, 4);
+            e.target.value = val;
+
+            if (val === '26/03') {
+                pwScreen.classList.add('hidden');
+                // Start preloader countdown after password accepted
+                setTimeout(() => {
+                    preloader.classList.add('hidden');
+                }, 2000);
+            }
         });
+
+        pwInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const val = pwInput.value;
+                if (val === '26/03') {
+                    pwScreen.classList.add('hidden');
+                    setTimeout(() => {
+                        preloader.classList.add('hidden');
+                    }, 2000);
+                } else {
+                    pwInput.classList.add('wrong');
+                    setTimeout(() => pwInput.classList.remove('wrong'), 500);
+                }
+            }
+        });
+
+        // ===== PRELOADER =====
+        // Preloader is now controlled by password screen
+        // window.addEventListener('load', ...) removed — preloader hides after password
 
         // ===== PARTICLES =====
         (function createParticles() {
