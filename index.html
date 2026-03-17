@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>פפון שלי 🖤</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&family=Secular+One&family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0a0a;
+            --gold: #d4a574;
+            --gold-light: #e8c9a0;
+            --pink: #c4737a;
+            --pink-light: #e8a0a6;
+            --cream: #f5e6d3;
+            --white: #fafafa;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Rubik', sans-serif;
+            background: var(--bg-dark);
+            color: var(--white);
+            overflow-x: hidden;
+            direction: rtl;
+        }
+
+        /* ===== PRELOADER ===== */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        #preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        #preloader .heart {
+            font-size: 60px;
+            animation: heartbeat 1s infinite;
+        }
+
+        #preloader p {
+            margin-top: 20px;
+            font-size: 18px;
+            color: var(--gold);
+            letter-spacing: 2px;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* ===== HERO SECTION ===== */
+        #hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(212,165,116,0.08) 0%, transparent 70%);
+            z-index: 1;
+        }
+
+        .hero-particles {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--gold);
+            border-radius: 50%;
+            opacity: 0;
+            animation: float-up 6s infinite;
+        }
+
+        @keyframes float-up {
+            0% { opacity: 0; transform: translateY(100vh) scale(0); }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { opacity: 0; transform: translateY(-10vh) scale(1); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            opacity: 0;
+            animation: fadeInUp 2s 1.5s forwards;
+        }
+
+        .hero-date {
+            font-size: clamp(14px, 3vw, 18px);
+            color: var(--gold);
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .hero-title {
+            font-family: 'Secular One', sans-serif;
+            font-size: clamp(48px, 12vw, 120px);
+            line-height: 1.1;
+            background: linear-gradient(135deg, var(--gold-light), var(--pink-light), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(16px, 4vw, 24px);
+            color: var(--cream);
+            font-weight: 300;
+            opacity: 0.8;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            opacity: 0;
+            animation: fadeInUp 1.5s 3s forwards;
+        }
+
+        .scroll-indicator .mouse {
+            width: 26px;
+            height: 40px;
+            border: 2px solid var(--gold);
+            border-radius: 13px;
+            display: flex;
+            justify-content: center;
+            margin: 0 auto 10px;
+        }
+
+        .scroll-indicator .wheel {
+            width: 3px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 2px;
+            margin-top: 8px;
+            animation: scroll-wheel 2s infinite;
+        }
+
+        @keyframes scroll-wheel {
+            0% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(12px); }
+        }
+
+        .scroll-indicator span {
+            font-size: 12px;
+            color: var(--gold);
+            letter-spacing: 3px;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== CHAPTER STYLES ===== */
+        .chapter {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chapter-inner {
+            max-width: 900px;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .chapter-inner.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .chapter-number {
+            font-family: 'Amatic SC', cursive;
+            font-size: clamp(60px, 15vw, 120px);
+            font-weight: 700;
+            opacity: 0.08;
+            position: absolute;
+            top: 10%;
+            right: 5%;
+            line-height: 1;
+            color: var(--gold);
+        }
+
+        .chapter-title {
+            font-family: 'Secular One', sans-serif;
+            font-size: clamp(28px, 6vw, 48px);
+            margin-bottom: 30px;
+            line-height: 1.3;
+        }
+
+        .chapter-text {
+            font-size: clamp(16px, 3.5vw, 20px);
+            line-height: 2;
+            font-weight: 300;
+            color: rgba(255,255,255,0.85);
+        }
+
+        .chapter-text .highlight {
+            color: var(--gold-light);
+            font-weight: 500;
+        }
+
+        .chapter-text .pink {
+            color: var(--pink-light);
+            font-weight: 500;
+        }
+
+        /* ===== PHOTO SECTION ===== */
+        .photo-chapter {
+            position: relative;
+        }
+
+        .photo-frame {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(212,165,116,0.15);
+        }
+
+        .photo-frame::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(135deg, var(--gold), var(--pink), var(--gold));
+            border-radius: 14px;
+            z-index: -1;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            display: block;
+            border-radius: 12px;
+        }
+
+        .photo-caption {
+            text-align: center;
+            font-size: 16px;
+            color: var(--gold);
+            font-style: italic;
+            margin-top: 15px;
+        }
+
+        /* ===== DIVIDERS ===== */
+        .divider {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .divider-line {
+            width: 1px;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+        }
+
+        .divider-heart {
+            font-size: 20px;
+            color: var(--gold);
+            position: absolute;
+        }
+
+        /* ===== TIMELINE ===== */
+        .timeline-section {
+            padding: 100px 20px;
+            position: relative;
+        }
+
+        .timeline {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            right: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, var(--gold), var(--pink), var(--gold), transparent);
+            transform: translateX(50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row-reverse;
+            text-align: left;
+        }
+
+        .timeline-item:nth-child(even) {
+            text-align: right;
+        }
+
+        .timeline-content {
+            flex: 1;
+            padding: 25px 30px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(212,165,116,0.15);
+            backdrop-filter: blur(10px);
+        }
+
+        .timeline-dot {
+            width: 16px;
+            height: 16px;
+            background: var(--gold);
+            border-radius: 50%;
+            margin: 0 25px;
+            flex-shrink: 0;
+            box-shadow: 0 0 20px rgba(212,165,116,0.4);
+        }
+
+        .timeline-label {
+            font-size: 14px;
+            color: var(--gold);
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .timeline-text {
+            font-size: 16px;
+            line-height: 1.7;
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* ===== BLESSING SECTION ===== */
+        #blessing {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #blessing::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center bottom, rgba(196,115,122,0.1) 0%, transparent 60%),
+                        radial-gradient(ellipse at center, rgba(212,165,116,0.08) 0%, transparent 50%);
+        }
+
+        .blessing-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .blessing-content.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .blessing-title {
+            font-family: 'Secular One', sans-serif;
+            font-size: clamp(32px, 8vw, 56px);
+            background: linear-gradient(135deg, var(--gold-light), var(--pink-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 40px;
+        }
+
+        .blessing-text {
+            font-size: clamp(16px, 3.5vw, 20px);
+            line-height: 2.2;
+            font-weight: 300;
+            color: rgba(255,255,255,0.9);
+            text-align: right;
+        }
+
+        .blessing-text .gold {
+            color: var(--gold-light);
+            font-weight: 500;
+        }
+
+        .blessing-text .pink-hl {
+            color: var(--pink-light);
+            font-weight: 500;
+        }
+
+        .blessing-sign {
+            margin-top: 60px;
+            font-family: 'Amatic SC', cursive;
+            font-size: clamp(36px, 8vw, 60px);
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .blessing-sign span {
+            display: block;
+            font-family: 'Rubik', sans-serif;
+            font-size: 18px;
+            font-weight: 300;
+            color: var(--pink-light);
+            margin-top: 5px;
+        }
+
+        /* ===== FINALE ===== */
+        #finale {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .finale-content {
+            text-align: center;
+            z-index: 2;
+            position: relative;
+        }
+
+        .forever-text {
+            font-family: 'Secular One', sans-serif;
+            font-size: clamp(40px, 10vw, 80px);
+            background: linear-gradient(135deg, var(--gold), var(--pink-light), var(--gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: gradient-shift 4s ease infinite;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .forever-text.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .forever-sub {
+            font-size: clamp(16px, 4vw, 22px);
+            color: var(--cream);
+            margin-top: 15px;
+            opacity: 0.7;
+            font-weight: 300;
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* ===== HEARTS CANVAS ===== */
+        #hearts-canvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9999;
+            display: none;
+        }
+
+        /* ===== BACKGROUND GRADIENT TRANSITION ===== */
+        body {
+            transition: background-color 1.5s ease;
+        }
+
+        .bg-dark { background-color: #0a0a0a; }
+        .bg-warm { background-color: #120e0a; }
+        .bg-deep { background-color: #0e0a10; }
+        .bg-glow { background-color: #100a08; }
+        .bg-love { background-color: #0f0808; }
+        .bg-finale { background-color: #080508; }
+
+        /* ===== GALLERY ===== */
+        .gallery-section {
+            padding: 80px 20px;
+        }
+
+        .gallery-title {
+            font-family: 'Secular One', sans-serif;
+            font-size: clamp(28px, 6vw, 42px);
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--gold-light);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            cursor: pointer;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .gallery-item.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .gallery-item::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .gallery-item:hover::after {
+            opacity: 1;
+        }
+
+        /* ===== LIGHTBOX ===== */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 9998;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 32px;
+            color: white;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            border: none;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .timeline::before {
+                right: 20px;
+            }
+
+            .timeline-item,
+            .timeline-item:nth-child(odd) {
+                flex-direction: column;
+                text-align: right;
+                align-items: flex-start;
+                padding-right: 50px;
+            }
+
+            .timeline-dot {
+                position: absolute;
+                right: 12px;
+                margin: 0;
+            }
+
+            .timeline-item {
+                position: relative;
+            }
+
+            .chapter-number {
+                font-size: 80px;
+                top: 5%;
+            }
+
+            .photo-frame {
+                max-width: 95%;
+            }
+        }
+
+        /* ===== MUSIC BUTTON ===== */
+        .music-btn {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(212,165,116,0.15);
+            border: 1px solid rgba(212,165,116,0.3);
+            color: var(--gold);
+            font-size: 22px;
+            cursor: pointer;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .music-btn:hover {
+            background: rgba(212,165,116,0.25);
+            transform: scale(1.1);
+        }
+
+        .music-btn.playing .bar {
+            animation: bar-bounce 0.6s infinite alternate;
+        }
+
+        .music-bars {
+            display: flex;
+            gap: 3px;
+            align-items: flex-end;
+            height: 18px;
+        }
+
+        .bar {
+            width: 3px;
+            background: var(--gold);
+            border-radius: 2px;
+            height: 6px;
+            transition: height 0.2s;
+        }
+
+        .bar:nth-child(1) { animation-delay: 0s; }
+        .bar:nth-child(2) { animation-delay: 0.15s; }
+        .bar:nth-child(3) { animation-delay: 0.3s; }
+        .bar:nth-child(4) { animation-delay: 0.45s; }
+
+        @keyframes bar-bounce {
+            0% { height: 4px; }
+            100% { height: 18px; }
+        }
+
+        .music-btn:not(.playing) .bar {
+            height: 6px !important;
+            animation: none !important;
+        }
+    </style>
+</head>
+<body class="bg-dark">
+
+    <!-- PRELOADER -->
+    <div id="preloader">
+        <div class="heart">🖤</div>
+        <p>בבון & פפון</p>
+    </div>
+
+    <!-- HEARTS CANVAS -->
+    <canvas id="hearts-canvas"></canvas>
+
+    <!-- HERO -->
+    <section id="hero">
+        <div class="hero-particles" id="particles"></div>
+        <div class="hero-content">
+            <div class="hero-date">26.03.2025 — 26.03.2026</div>
+            <h1 class="hero-title">בבון & פפון</h1>
+            <p class="hero-subtitle">שנה של אהבה, מלחמה, וניצחון</p>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse"><div class="wheel"></div></div>
+            <span>גללי למטה</span>
+        </div>
+    </section>
+
+    <!-- CHAPTER 1: THE BEGINNING -->
+    <div class="divider"><div class="divider-line"></div></div>
+
+    <section class="chapter photo-chapter" data-bg="bg-warm">
+        <span class="chapter-number">01</span>
+        <div class="chapter-inner">
+            <div class="photo-frame">
+                <img src="media/first-photo.jpg" alt="הלילה שהכל התחיל">
+            </div>
+            <p class="photo-caption">הלילה שממנו הכל התחיל ✨</p>
+        </div>
+    </section>
+
+    <div class="divider"><div class="divider-line"></div></div>
+
+    <!-- CHAPTER 2: HOW IT STARTED -->
+    <section class="chapter" data-bg="bg-warm">
+        <span class="chapter-number">02</span>
+        <div class="chapter-inner">
+            <h2 class="chapter-title" style="color: var(--gold-light)">איך הכל התחיל</h2>
+            <p class="chapter-text">
+                הכרנו בעבודה. <span class="highlight">שלום שלום</span>, לא יותר מדי.
+                <br><br>
+                ואז הגיע הלילה הזה — נסענו עם נעם לקחת את מור, וליאן עלתה לאוטו.
+                היא הייתה <span class="pink">מעולפת מסטלה של החיים</span>, ובזמן שחיכינו למטה...
+                <br><br>
+                היא שמה את הראש שלה עליי. החזיקה בי מאחורה.
+                <br><br>
+                <span class="highlight">זה היה המגע הכי נעים שהרגשתי בחיים.</span>
+                <br><br>
+                באותה תקופה הייתי במקום אחר. סטלן שמחפש ליהנות. זוגיות? הדבר האחרון.
+                <br>
+                אבל משהו התחיל לנקר. <span class="pink">קליק</span> שלא ידעתי להסביר.
+            </p>
+        </div>
+    </section>
+
+    <div class="divider"><div class="divider-line"></div></div>
+
+    <!-- CHAPTER 3: THE CLICK -->
+    <section class="chapter" data-bg="bg-deep">
+        <span class="chapter-number">03</span>
+        <div class="chapter-inner">
+            <h2 class="chapter-title" style="color: var(--pink-light)">הקליק</h2>
+            <p class="chapter-text">
+                אחרי אותו לילה, ביקשתי ממור שתזמין את ליאן לשבת.
+                <span class="highlight">התפללתי כל כך הרבה שהיא תישאר לישון.</span>
+                <br><br>
+                לא קרה. אבל משהו אחר קרה — <span class="pink">התחברנו</span>.
+                <br><br>
+                לאט לאט. יותר דיבורים בעבודה. הודעות בווצאפ — קצת על צבא,
+                שום דבר מעבר. עדיין.
+                <br><br>
+                ואז... הגיע <span class="highlight">פורים</span>.
+            </p>
+        </div>
+    </section>
+
+    <div class="divider"><div class="divider-line"></div></div>
+
+    <!-- CHAPTER 4: PURIM -->
+    <section class="chapter" data-bg="bg-glow">
+        <span class="chapter-number">04</span>
+        <div class="chapter-inner">
+            <h2 class="chapter-title" style="color: var(--gold)">פורים — הכל השתנה</h2>
+            <p class="chapter-text">
+                משום מקום החלטנו — <span class="highlight">מתחפשים ביחד</span>.
+                <br><br>
+                יום לפני המסיבה יצאנו לקנות מעיל, נסענו לאכול,
+                ושם <span class="pink">הרגשנו את זה</span> — החברות שמתחילה להפוך למשהו יותר.
+                <br><br>
+                ויום למחרת? כל הדרך למסיבה. בהלוך. במסיבה עצמה. בחזור.
+                <br>
+                <span class="highlight">לא הפסקנו להימרח אחד על השנייה.</span>
+                <br><br>
+                ואפילו היה איזה <span class="pink">נשיקונת קטנה</span> 💋
+                <br><br>
+                למחרת ליאן כבר באה אליי לבית בלילה.
+                <br>
+                <span class="highlight">ומשם — הכל התגלגל.</span>
+            </p>
+        </div>
+    </section>
+
+    <div class="divider"><div class="divider-line"></div></div>
+
+    <!-- CHAPTER 5: THE STRUGGLES -->
+    <section class="chapter" data-bg="bg-love">
+        <span class="chapter-number">05</span>
+        <div class="chapter-inner">
+            <h2 class="chapter-title" style="color: var(--pink-light)">שני עולמות שונים, לב אחד</h2>
+            <p class="chapter-text">
+                ההתחלה שלנו לא הייתה קלה. בכלל לא.
+                <br><br>
+                <span class="highlight">שני אנשים שונים לגמרי, מעולמות שונים לגמרי</span> —
+                שמוצאים את עצמם לא מסוגלים להעביר שנייה אחת בלי השני.
+                בכל מקום. בכל זמן.
+                <br><br>
+                וזה הוביל לריבים. להתאמות. לכאבים.
+                <br><br>
+                אבל הקושי האמיתי? <span class="pink">האנשים מסביב.</span>
+                <br><br>
+                אותם אנשים שחיברו בינינו — הם אלה שעשו הכי הרבה קשיים.
+                <span class="highlight">החרימו את ליאן</span>. גרמו לה לדיכאון הכי קשה שיש.
+                ואז לאט לאט הפכו אותי למצורע.
+                <br><br>
+                הכמות גבות שהקשר הזה גרם...
+                <br><br>
+                <span class="pink">ובתוך כל הכאוס הזה — שני האנשים השונים נאבקים בשיניים.
+                נותנים לאהבה שלהם לנצח.</span>
+            </p>
+        </div>
+    </section>
+
+    <div class="divider"><div class="divider-line"></div></div>
+
+    <!-- CHAPTER 6: VICTORY -->
+    <section class="chapter" data-bg="bg-glow">
+        <span class="chapter-number">06</span>
+        <div class="chapter-inner">
+            <h2 class="chapter-title" style="color: var(--gold-light)">ותודה לאל — לא ויתרנו</h2>
+            <p class="chapter-text">
+                למרות כל הריבים. למרות כל הקשיים. למרות כל מה שאנשים העבירו אותנו.
+                <br><br>
+                <span class="highlight">היום אנחנו בלתי נפרדים.</span>
+                <br>
+                בלי עין הרע.
+                <br>
+                <span class="pink">עם אהבה מכאן ועד לשמיים.</span>
+            </p>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <div class="divider"><div class="divider-line"></div></div>
+
+    <section class="gallery-section" data-bg="bg-deep">
+        <h2 class="gallery-title">הרגעים שלנו ✨</h2>
+        <div class="gallery-grid" id="gallery-grid">
+            <!-- Photos will be loaded dynamically -->
+        </div>
+    </section>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close">&times;</button>
+        <img src="" alt="" id="lightbox-img">
+    </div>
+
+    <div class="divider"><div class="divider-line"></div></div>
+
+    <!-- BLESSING -->
+    <section id="blessing" data-bg="bg-love">
+        <div class="blessing-content">
+            <h2 class="blessing-title">פפון שלי 🖤</h2>
+            <div class="blessing-text">
+                היום ביום הולדת שלך, זה גם <span class="gold">השנה שלנו</span>.
+                אז את מקבלת ברכה ליום הולדת, וגם לזוגיות — כי הם אחד.
+                <br><br>
+                <span class="pink-hl">אהבה שלי, אחת ויחידה שלי</span> —
+                לאישה שהופכת לי בראייה ובתפיסה בראש כל דבר קשה לדבר שהוא בר השגה.
+                <br><br>
+                אני מודה לקדוש ברוך הוא שנכנסת לי לחיים.
+                אני מודה לקדוש ברוך הוא שלא ויתרנו והמשכנו להילחם —
+                <span class="gold">ואנחנו היום ביחד למרות הכל.</span>
+                <br><br>
+                פפון שלי, <span class="pink-hl">את הכוח שלי בחיים האלה</span>.
+                <br>
+                את הכוח שלי להילחם יום יום ולהמשיך לעבוד קשה.
+                <br>
+                את הכוח שלי לקום בבוקר ולא לוותר.
+                <br>
+                את הכוח שנותן לי את <span class="gold">הסיבה לחייך</span>.
+                <br>
+                את הכוח שגורם לי לחיות ולהיות יהב.
+                <br><br>
+                <span class="pink-hl">תודה לך חיים שלי</span> על מי שאת ומה שאת בשבילי.
+                <br>
+                תודה שאת דוחפת אותי להיות הגרסה הכי טובה של עצמי כל יום.
+                <br>
+                תודה על כל נשיקה, על כל חיבוק, על כל לילה טוב, על כל מילה טובה.
+                <br>
+                תודה על כל התעצבנות חמודה שיש לך ממני.
+                <br>
+                <span class="gold">תודה על הכל פפון שלי.</span>
+                <br><br>
+                אני רוצה להגיד לך תודה על <span class="pink-hl">מי שהפכת אותי להיות בשנה הזאת</span>.
+                אני מרגיש בן אדם אחר — שכל פעם שהוא לידך מרגיש
+                <span class="gold">במקום הכי בטוח בעולם</span>,
+                והבן אדם הכי בר מזל שיש.
+                <br><br>
+                את <span class="pink-hl">היהלום שבכתר של החיים שלי</span>.
+                <br><br>
+                ואני רוצה להגיד לך כמה שאני <span class="gold">גאה בך</span>.
+                לאישה שהפכת להיות בשנה הזאת — לאישה שלא מוותרת,
+                נלחמת בשיניים, ורוצה רק לגדול, להתפתח, לאהוב ולחוות.
+                זה מעבר לעסק או לכושר — <span class="pink-hl">זה מי שאת</span>.
+                <br><br>
+                <span class="gold">ואני מברך אותך —</span>
+                <br>
+                שנזכה לחתונה ביחד ולהקים בית נאמן וכשר בישראל.
+                <br>
+                שהשם ישלח לנו שפע וברכה בזוגיות, בבית, בקשר.
+                <br>
+                שישמור לי עלייך בריאה ושלמה עד 120.
+                <br>
+                שנקים משפחה ביחד — <span class="pink-hl">וחתונה בקרוב</span>.
+                <br>
+                שישלח לך שפע של הצלחה בעסק, באמת בשפע ענקי.
+                <br>
+                שלא ירד לך החיוך מהפנים לעולם.
+                <br>
+                <span class="gold">ותמשיכי תמיד לחלום ולהילחם על החלומות שלך,
+                ולכבוש כל פסגה ויעד שיעלה במוח שלך ובלב שלך.</span>
+            </div>
+
+            <div class="blessing-sign">
+                אוהב אותך הכי הרבה בעולם
+                <span>בבון שלך — יהב 🖤</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINALE -->
+    <section id="finale" data-bg="bg-finale">
+        <div class="finale-content">
+            <div class="forever-text">לנצח שלנו 🖤</div>
+            <p class="forever-sub">26.03.2025 — עד הנצח</p>
+        </div>
+    </section>
+
+    <!-- MUSIC BUTTON -->
+    <button class="music-btn" id="music-btn" title="מוזיקה">
+        <div class="music-bars">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+    </button>
+
+    <script>
+        // ===== PRELOADER =====
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('preloader').classList.add('hidden');
+            }, 2000);
+        });
+
+        // ===== PARTICLES =====
+        (function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 40; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDelay = Math.random() * 6 + 's';
+                p.style.animationDuration = (4 + Math.random() * 4) + 's';
+                container.appendChild(p);
+            }
+        })();
+
+        // ===== SCROLL ANIMATIONS =====
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.chapter-inner, .timeline-item, .blessing-content, .forever-text, .gallery-item').forEach(el => {
+            observer.observe(el);
+        });
+
+        // ===== BACKGROUND COLOR TRANSITIONS =====
+        const bgObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && entry.target.dataset.bg) {
+                    document.body.className = entry.target.dataset.bg;
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('[data-bg]').forEach(el => {
+            bgObserver.observe(el);
+        });
+
+        // ===== GALLERY - AUTO LOAD IMAGES =====
+        // Add your photos to the media/ folder — they'll be shown here
+        const galleryGrid = document.getElementById('gallery-grid');
+        const galleryImages = [
+            'media/e7f3a3c4-09f1-47ba-b278-ab30e6f4c714.jpg',
+            'media/f02c8c88-f04b-461a-a5c1-cd18d1c2ba0b.jpg',
+            'media/23f65a50-7026-45ff-a56d-e76453f79da5.jpg',
+            'media/8385ad8f-8f23-43c2-b81f-8038d1fc898e.jpg',
+            'media/cbf33a62-457b-4171-8b99-634ecc5a6583.jpg',
+            'media/d15558a6-cf0f-4899-9ae8-f64fffcbd4e1.jpg',
+            'media/850cb7d5-4565-498c-9391-c99c46d448d2.jpg',
+            'media/f3ee65e6-c84e-4e3a-a391-b32f34f45e0c.jpg',
+            'media/8a8e4ad9-e2e6-4aa2-ab06-11e4a085f837.jpg',
+            'media/a8f7211f-4e57-454b-af89-390b90c52b4e.jpg',
+            'media/ea72ae47-a648-4dcb-bd2a-713f30a80ecc.jpg',
+            'media/edb4d015-a245-4d3b-8c94-6875404d615b.jpg',
+            'media/67a9ce3e-9678-43b0-b2e1-e180b7e5741d.jpg',
+            'media/bf85873d-54a5-419b-b7a7-dc344be63263.jpg',
+            'media/f43c3458-816e-48a4-ae39-4bacfbae56c9.jpg',
+            'media/08bd9c40-da22-4ece-bed4-2ce1b7cbe23e.jpg',
+            'media/48f3997a-414f-4860-a690-f0c0110f43f2.jpg',
+            'media/2bb48d67-fac6-4bfd-980e-db19482dc8e6.jpg',
+            'media/79b632a7-8573-4e5a-a853-c561b025ea2a.jpg',
+            'media/73458a5f-473f-468b-8a3d-721bc3f5f725.jpg',
+            'media/5d388814-12b0-47d8-a835-1ca0e9d53d0e.jpg',
+            'media/ebf163b5-2803-4148-978b-daa79bd06561.jpg',
+            'media/3fbd5367-42e8-45a5-ba08-157b72b8ff09.jpg',
+            'media/62e35cb4-0418-4531-bc73-da63a857dfaa.jpg',
+            'media/52ef8f2c-5c0c-407e-ad32-a164eb6623a9.jpg',
+            'media/f951b3bf-0db1-4983-ae5b-0850b7c4b8e3.jpg',
+            'media/114f5d20-4123-48be-b13d-f191c55a3af8.jpg',
+            'media/8b23486b-d4bf-4d5d-ba83-42abb14d62e1.jpg',
+            'media/5d5b815d-32e1-41ff-a329-4e541114e82d.jpg',
+            'media/3f741ec6-1290-4ce8-8fd9-81f0309799db.jpg',
+            'media/5a270d84-3b3a-4867-afb2-3deacdddfa1b.jpg',
+            'media/35cac02a-8da7-4d5e-8a9c-bacaba806347.jpg',
+            'media/00bf7cb0-58a1-4e32-882b-ef8af5f3fe42.jpg',
+            'media/ee35112b-7fbc-4953-adfb-41ecb3319f26.jpg',
+            'media/b5bb598a-8bfe-45d3-8fa1-acf666d249f2.jpg',
+            'media/e7e9977e-fc92-472d-8861-a347fa2f059a.jpg',
+            'media/c3b5bd0e-06af-4c57-9aef-8d960487ed5b.jpg',
+            'media/f0e76b59-784f-44fd-adf8-cd4bdd2ab029.jpg',
+            'media/3bc5ead3-3bd5-46a8-ad62-6c8283716313.jpg',
+            'media/144eb1be-05e6-4d32-8152-c7d4d1ccb540.jpg',
+            'media/55ff3e91-d34f-4cb9-bd30-ff4f2d81f24f.jpg',
+            'media/8a8f517d-4da5-401b-a3ec-0d87f4dafbae.jpg',
+            'media/7aa629ad-2075-40df-8dfb-9fb926a24669.jpg',
+            'media/85a1306e-52e0-4aff-8b2e-dec49190c2a4.jpg',
+            'media/f8cffc64-f1b8-42dc-883c-bbf11ee67a73.jpg',
+            'media/85e5574e-a14d-40fb-acbb-582a8c08d27b.jpg',
+            'media/46f0a359-72d5-4dc4-8279-5375a76db4d0.jpg',
+            'media/471f2545-9270-439c-bf9a-f84b9defa948.jpg',
+            'media/4eaed011-1c63-42fc-a509-ea013c96a01b.jpg',
+            'media/177167b7-b66a-46a9-ba2d-ba72292e3fb1.jpg',
+            'media/43d914e5-ad46-4381-8443-94a3cf8389f7.jpg',
+        ];
+
+        function addGalleryItem(src) {
+            const div = document.createElement('div');
+            div.className = 'gallery-item';
+            div.innerHTML = `<img src="${src}" alt="בבון & פפון">`;
+            div.addEventListener('click', () => openLightbox(src));
+            galleryGrid.appendChild(div);
+            observer.observe(div);
+        }
+
+        galleryImages.forEach(src => addGalleryItem(src));
+
+        // ===== LIGHTBOX =====
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+
+        function openLightbox(src) {
+            lightboxImg.src = src;
+            lightbox.classList.add('active');
+        }
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target !== lightboxImg) {
+                lightbox.classList.remove('active');
+            }
+        });
+
+        document.querySelector('.lightbox-close').addEventListener('click', () => {
+            lightbox.classList.remove('active');
+        });
+
+        // ===== HEARTS RAIN ON FINALE =====
+        const heartsCanvas = document.getElementById('hearts-canvas');
+        const ctx = heartsCanvas.getContext('2d');
+        let hearts = [];
+        let heartsActive = false;
+
+        function resizeCanvas() {
+            heartsCanvas.width = window.innerWidth;
+            heartsCanvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        function drawHeart(x, y, size, color, alpha) {
+            ctx.save();
+            ctx.globalAlpha = alpha;
+            ctx.fillStyle = color;
+            ctx.font = size + 'px serif';
+            ctx.fillText('❤️', x, y);
+            ctx.restore();
+        }
+
+        function animateHearts() {
+            if (!heartsActive) return;
+            ctx.clearRect(0, 0, heartsCanvas.width, heartsCanvas.height);
+
+            if (hearts.length < 60) {
+                hearts.push({
+                    x: Math.random() * heartsCanvas.width,
+                    y: -20,
+                    size: 12 + Math.random() * 24,
+                    speed: 1 + Math.random() * 3,
+                    wobble: Math.random() * Math.PI * 2,
+                    alpha: 0.3 + Math.random() * 0.7,
+                    color: Math.random() > 0.5 ? '#d4a574' : '#c4737a'
+                });
+            }
+
+            hearts.forEach((h, i) => {
+                h.y += h.speed;
+                h.x += Math.sin(h.wobble) * 0.5;
+                h.wobble += 0.02;
+                drawHeart(h.x, h.y, h.size, h.color, h.alpha);
+                if (h.y > heartsCanvas.height + 30) hearts.splice(i, 1);
+            });
+
+            requestAnimationFrame(animateHearts);
+        }
+
+        const finaleObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    heartsActive = true;
+                    heartsCanvas.style.display = 'block';
+                    animateHearts();
+                } else {
+                    heartsActive = false;
+                    heartsCanvas.style.display = 'none';
+                    hearts = [];
+                }
+            });
+        }, { threshold: 0.3 });
+
+        finaleObserver.observe(document.getElementById('finale'));
+
+        // ===== MUSIC (Optional - add music/song.mp3) =====
+        const musicBtn = document.getElementById('music-btn');
+        let audio = null;
+        let isPlaying = false;
+
+        musicBtn.addEventListener('click', () => {
+            if (!audio) {
+                audio = new Audio('media/song.mp3');
+                audio.loop = true;
+                audio.volume = 0.4;
+            }
+            if (isPlaying) {
+                audio.pause();
+                musicBtn.classList.remove('playing');
+            } else {
+                audio.play().catch(() => {});
+                musicBtn.classList.add('playing');
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // ===== SMOOTH REVEAL ON SCROLL =====
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => { ticking = false; });
+                ticking = true;
+            }
+        });
+    </script>
+</body>
+</html>
