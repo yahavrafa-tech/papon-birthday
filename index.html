@@ -75,6 +75,47 @@
             font-family: 'Rubik', sans-serif;
         }
 
+        /* PLAY BUTTON after password */
+        .play-btn {
+            display: none;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(212,165,116,0.2), rgba(196,115,122,0.2));
+            border: 2px solid rgba(212,165,116,0.4);
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            margin-top: 30px;
+            transition: all 0.3s;
+            animation: pulse-glow 2s infinite;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.1);
+            background: linear-gradient(135deg, rgba(212,165,116,0.3), rgba(196,115,122,0.3));
+        }
+
+        .play-btn svg {
+            width: 32px;
+            height: 32px;
+            fill: #e8c9a0;
+            margin-right: -4px;
+        }
+
+        .play-btn-text {
+            margin-top: 15px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.4);
+            font-family: 'Rubik', sans-serif;
+            display: none;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(212,165,116,0.1); }
+            50% { box-shadow: 0 0 40px rgba(212,165,116,0.3); }
+        }
+
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             20% { transform: translateX(-10px); }
@@ -815,7 +856,11 @@
         <div class="pw-title">🔒 רק לפפון</div>
         <div class="pw-subtitle">הכניסי את התאריך שלנו</div>
         <input type="text" class="pw-input" id="pw-input" placeholder="DD/MM" maxlength="5" autocomplete="off" inputmode="numeric">
-        <div class="pw-hint">רמז: היום שהכל התחיל 🖤</div>
+        <div class="pw-hint">רמז: היום המיוחד 🖤</div>
+        <button class="play-btn" id="play-btn">
+            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        </button>
+        <div class="play-btn-text" id="play-btn-text">לחצי להתחיל ▶</div>
     </div>
 
     <!-- PRELOADER -->
@@ -1083,10 +1128,25 @@
     </button>
 
     <script>
+        // ===== GLOBAL AUDIO =====
+        let audio = null;
+        let isPlaying = false;
+
         // ===== PASSWORD =====
         const pwInput = document.getElementById('pw-input');
         const pwScreen = document.getElementById('password-screen');
         const preloader = document.getElementById('preloader');
+        const playBtn = document.getElementById('play-btn');
+        const playBtnText = document.getElementById('play-btn-text');
+
+        function showPlayButton() {
+            pwInput.style.display = 'none';
+            document.querySelector('.pw-subtitle').style.display = 'none';
+            document.querySelector('.pw-hint').style.display = 'none';
+            document.querySelector('.pw-title').textContent = 'פפון שלי 🖤';
+            playBtn.style.display = 'flex';
+            playBtnText.style.display = 'block';
+        }
 
         // Auto-format: add "/" after 2 digits
         pwInput.addEventListener('input', (e) => {
@@ -1095,11 +1155,7 @@
             e.target.value = val;
 
             if (val === '26/03') {
-                pwScreen.classList.add('hidden');
-                // Start preloader countdown after password accepted
-                setTimeout(() => {
-                    preloader.classList.add('hidden');
-                }, 2000);
+                showPlayButton();
             }
         });
 
@@ -1107,10 +1163,7 @@
             if (e.key === 'Enter') {
                 const val = pwInput.value;
                 if (val === '26/03') {
-                    pwScreen.classList.add('hidden');
-                    setTimeout(() => {
-                        preloader.classList.add('hidden');
-                    }, 2000);
+                    showPlayButton();
                 } else {
                     pwInput.classList.add('wrong');
                     setTimeout(() => pwInput.classList.remove('wrong'), 500);
@@ -1118,9 +1171,27 @@
             }
         });
 
+        // PLAY BUTTON — starts music + opens site
+        playBtn.addEventListener('click', () => {
+            // Start music
+            if (!audio) {
+                audio = new Audio('media/song.mp3');
+                audio.loop = true;
+                audio.volume = 0.4;
+            }
+            audio.play().catch(() => {});
+            document.getElementById('music-btn').classList.add('playing');
+            isPlaying = true;
+
+            // Hide password screen, show preloader briefly, then site
+            pwScreen.classList.add('hidden');
+            setTimeout(() => {
+                preloader.classList.add('hidden');
+            }, 2000);
+        });
+
         // ===== PRELOADER =====
-        // Preloader is now controlled by password screen
-        // window.addEventListener('load', ...) removed — preloader hides after password
+        // Preloader is now controlled by play button
 
         // ===== PARTICLES =====
         (function createParticles() {
@@ -1313,10 +1384,8 @@
 
         finaleObserver.observe(document.getElementById('finale'));
 
-        // ===== MUSIC (Optional - add music/song.mp3) =====
+        // ===== MUSIC =====
         const musicBtn = document.getElementById('music-btn');
-        let audio = null;
-        let isPlaying = false;
 
         musicBtn.addEventListener('click', () => {
             if (!audio) {
